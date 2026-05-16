@@ -1,0 +1,110 @@
+[
+  {
+    "id": "bota-stickers",
+    "nameRu": "Стикер-пак Бота",
+    "nameKz": "Бота стикер-пакеті",
+    "descriptionRu": "5 стикеров с КамБотом и его друзьями",
+    "descriptionKz": "КамБот пен достарының 5 стикері",
+    "cost": 30,
+    "imagePath": "assets/store/stickers.png",
+    "emoji": "🌟",
+    "category": "digital",
+    "isCoupon": false
+  },
+  {
+    "id": "bota-frame",
+    "nameRu": "Цветная рамка",
+    "nameKz": "Түсті жақтау",
+    "descriptionRu": "Декоративная рамка для фото с Ботой",
+    "descriptionKz": "Ботамен фотоға арналған әшекей жақтау",
+    "cost": 50,
+    "imagePath": "assets/store/frame.png",
+    "emoji": "🖼️",
+    "category": "digital",
+    "isCoupon": false
+  },
+  {
+    "id": "bs-choc-gold",
+    "nameRu": "Шоколад «Казахстанский»",
+    "nameKz": "«Қазақстандық» шоколады",
+    "descriptionRu": "Настоящий классический молочный шоколад Баян Сулу.",
+    "descriptionKz": "Баян Сұлу классикалық сүтті шоколады.",
+    "cost": 80,
+    "imagePath": "",
+    "emoji": "🍫",
+    "category": "chocolate",
+    "isCoupon": true
+  },
+  {
+    "id": "bota-discount-10",
+    "nameRu": "10% скидка",
+    "nameKz": "10% жеңілдік",
+    "descriptionRu": "Скидочный купон 10% на продукцию Баян Сулу",
+    "descriptionKz": "Баян Сұлу өніміне 10% жеңілдік купоны",
+    "cost": 100,
+    "imagePath": "assets/store/discount.png",
+    "emoji": "🏷️",
+    "category": "discount",
+    "isCoupon": true
+  },
+  {
+    "id": "bs-candy-1",
+    "nameRu": "Набор конфет «Баян Сулу» 500г",
+    "nameKz": "«Баян Сұлу» кәмпит жинағы 500г",
+    "descriptionRu": "Сладкий подарочный набор конфет от фабрики Баян Сулу.",
+    "descriptionKz": "Баян Сұлу фабрикасының тәтті сыйлық жинағы.",
+    "cost": 150,
+    "imagePath": "",
+    "emoji": "🎁",
+    "category": "sweet",
+    "isCoupon": true
+  },
+  {
+    "id": "bota-toy",
+    "nameRu": "Игрушка Бота (мини)",
+    "nameKz": "Бота ойыншық (мини)",
+    "descriptionRu": "Маленькая мягкая игрушка Бота",
+    "descriptionKz": "Кішкентай жұмсақ Бота ойыншығы",
+    "cost": 200,
+    "imagePath": "assets/store/camel.png",
+    "emoji": "🐫",
+    "category": "toy",
+    "isCoupon": true
+  },
+  {
+    "id": "bs-toy-camel",
+    "nameRu": "Мягкая игрушка «Верблюжонок Камми»",
+    "nameKz": "«Камми ботақаны» жұмсақ ойыншығы",
+    "descriptionRu": "Плюшевый талисман нашего приложения — верблюжонок Камми!",
+    "descriptionKz": "Қосымшамыздың жұмсақ тұмары — Камми ботақаны!",
+    "cost": 300,
+    "imagePath": "",
+    "emoji": "🐪",
+    "category": "toy",
+    "isCoupon": true
+  },
+  {
+    "id": "bota-gift-set",
+    "nameRu": "Подарочный набор",
+    "nameKz": "Сыйлық жинағы",
+    "descriptionRu": "Большой набор сладостей Баян Сулу",
+    "descriptionKz": "Баян Сұлу тәттілерінің үлкен жинағы",
+    "cost": 500,
+    "imagePath": "assets/store/sweets.png",
+    "emoji": "🎀",
+    "category": "sweet",
+    "isCoupon": true
+  },
+  {
+    "id": "bota-vip",
+    "nameRu": "VIP Путешественник",
+    "nameKz": "VIP Саяхатшы",
+    "descriptionRu": "Эксклюзивный статус и значок в приложении",
+    "descriptionKz": "Қосымшадағы эксклюзивті мәртебе мен белгі",
+    "cost": 1000,
+    "imagePath": "assets/store/crown.png",
+    "emoji": "👑",
+    "category": "digital",
+    "isCoupon": false
+  }
+]
