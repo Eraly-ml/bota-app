@@ -1,62 +1,33 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-/// ElevenLabs-powered voice playback for the KamBot mascot.
-///
-/// Replaces robotic `flutter_tts` with a high-quality multilingual voice.
-/// Silently falls back to no-op when `ELEVENLABS_API_KEY` is missing or the
-/// API call fails — preserves the `soundMuted` contract.
+/// FlutterTTS-powered voice playback for the KamBot mascot.
+/// Free and works without API keys.
 class VoiceService {
-  // Voice "Bella" — warm, friendly, multilingual.
-  static const String _voiceId = 'EXAVITQu4vr4xnSDxMaL';
-  static const String _modelId = 'eleven_multilingual_v2';
-  static const double _stability = 0.78;
-  static const double _similarityBoost = 0.88;
-  static const double _style = 0.28;
-
-  static AudioPlayer? _playerInstance;
-  static AudioPlayer get _player {
-    _playerInstance ??= AudioPlayer();
-    return _playerInstance!;
+  static FlutterTts? _ttsInstance;
+  static FlutterTts get _tts {
+    _ttsInstance ??= FlutterTts();
+    return _ttsInstance!;
   }
+
   static String? _lastText;
   static bool _pending = false;
 
-  /// Speak `text` aloud. Idempotent for repeated identical text.
-  /// No-op when API key is absent or request fails.
+  /// Speak `text` aloud.
   static Future<void> speak(String text) async {
     final clean = _stripEmojis(text);
     if (clean.isEmpty || _lastText == clean || _pending) return;
     _lastText = clean;
     _pending = true;
+
     try {
-      final apiKey = dotenv.env['ELEVENLABS_API_KEY'];
-      if (apiKey == null || apiKey.isEmpty) return;
-      final res = await http.post(
-        Uri.parse('https://api.elevenlabs.io/v1/text-to-speech/$_voiceId'),
-        headers: {
-          'xi-api-key': apiKey,
-          'Content-Type': 'application/json',
-          'Accept': 'audio/mpeg',
-        },
-        body: jsonEncode({
-          'text': clean,
-          'model_id': _modelId,
-          'voice_settings': {
-            'stability': _stability,
-            'similarity_boost': _similarityBoost,
-            'style': _style,
-            'use_speaker_boost': true,
-          },
-        }),
-      );
-      if (res.statusCode != 200) return;
-      await _player.stop();
-      await _player.play(BytesSource(res.bodyBytes));
-    } catch (_) {
-      // silent fallback — keeps soundMuted semantics on any failure
+      await _tts.setLanguage("ru-RU"); // Default to Russian
+      await _tts.setSpeechRate(0.5);
+      await _tts.setVolume(1.0);
+      await _tts.setPitch(1.0);
+      
+      await _tts.speak(clean);
+    } catch (e) {
+      print('TTS Error: $e');
     } finally {
       _pending = false;
     }
@@ -66,16 +37,12 @@ class VoiceService {
   static Future<void> stop() async {
     _lastText = null;
     try {
-      await _player.stop();
+      await _tts.stop();
     } catch (_) {}
+    _pending = false;
   }
 
-  /// Strip emojis & pictograph ranges so ElevenLabs doesn't read "smiling face".
-  ///
-  /// Dart [RegExp] does not support braced `\u{...}` syntax, so we filter
-  /// runes by code-point ranges instead. Ranges cover Misc Symbols,
-  /// Dingbats, Emoticons, Supplemental Symbols & Pictographs, plus the
-  /// variation-selector block used in joined emoji sequences.
+  /// Strip emojis & pictograph ranges so TTS doesn't read them weirdly.
   static String _stripEmojis(String s) {
     final buf = StringBuffer();
     for (final r in s.runes) {
