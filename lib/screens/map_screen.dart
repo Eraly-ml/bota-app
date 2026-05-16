@@ -615,82 +615,70 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               ],
             ),
             const SizedBox(height: 16),
-            Column(
-              children: loc.gameIds.map((gid) {
-                final gi = _gameInfo[gid]!;
-                final isQuiz = gid == 'quiz';
-                return GestureDetector(
-                  onTap: () {
-                    if (isQuiz) {
-                      _openLearnThenQuiz(p.isRussian ? loc.nameRu : loc.nameKz);
-                    } else {
-                      _openGame(gid, p.isRussian ? loc.nameRu : loc.nameKz);
-                    }
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [loc.color, loc.color.withValues(alpha: 0.7)],
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: loc.color.withValues(alpha: 0.3),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: loc.gameIds.map((gid) {
+                  final gi = _gameInfo[gid]!;
+                  final isQuiz = gid == 'quiz';
+                  return GestureDetector(
+                    onTap: () {
+                      if (isQuiz) {
+                        _openLearnThenQuiz(p.isRussian ? loc.nameRu : loc.nameKz);
+                      } else {
+                        _openGame(gid, p.isRussian ? loc.nameRu : loc.nameKz);
+                      }
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [loc.color, loc.color.withValues(alpha: 0.7)],
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.15),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                            ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: loc.color.withValues(alpha: 0.3),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
                           ),
-                          child: Icon(gi['icon'] as IconData, color: Colors.white, size: 24),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(gi['icon'] as IconData, color: Colors.white, size: 18),
+                          const SizedBox(width: 8),
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
                                 p.isRussian ? gi['nameRu'] as String : gi['nameKz'] as String,
                                 style: const TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w800,
                                   color: Colors.white,
                                 ),
                               ),
-                              if (isQuiz) ...[
-                                const SizedBox(height: 2),
+                              if (isQuiz)
                                 Text(
                                   p.t('(материалмен)', '(с материалом)'),
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 9,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white.withValues(alpha: 0.7),
                                   ),
                                 ),
-                              ],
                             ],
                           ),
-                        ),
-                        const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white70, size: 16),
-                        const SizedBox(width: 16),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           ],
         ),
@@ -700,7 +688,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   Widget _topBar(GameProvider p) => Container(
     margin: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
     decoration: BoxDecoration(
       color: AppColors.glassBg,
       borderRadius: BorderRadius.circular(20),
@@ -709,120 +697,145 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     ),
     child: Row(
       children: [
-        CartoonAvatar(avatarIndex: p.profile.avatarIndex, size: 32, showBorder: true),
-        const SizedBox(width: 8),
+        CartoonAvatar(avatarIndex: p.profile.avatarIndex, size: 40, showBorder: true),
+        const SizedBox(width: 10),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
             children: [
+              Text(
+                p.profile.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                  color: AppColors.textOnDark,
+                ),
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    p.profile.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13,
-                      color: AppColors.textOnDark,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      'Lv.${p.profile.level}',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
-                  Text(
-                    'LV.${p.profile.level}',
-                    style: TextStyle(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.botakoin.withValues(alpha: 0.8),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(3),
+                      child: LinearProgressIndicator(
+                        value: p.profile.progressToNextLevel,
+                        backgroundColor: const Color(0xFF2A1010),
+                        valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+                        minHeight: 4,
+                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 2),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(2),
-                child: LinearProgressIndicator(
-                  value: p.profile.progressToNextLevel,
-                  backgroundColor: Colors.white.withValues(alpha: 0.1),
-                  valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
-                  minHeight: 4,
-                ),
-              ),
             ],
           ),
         ),
-        const SizedBox(width: 8),
         if (p.profile.currentStreak > 0) ...[
           Row(
             children: [
-              const Icon(Icons.local_fire_department_rounded, color: AppColors.primary, size: 16),
+              const Icon(Icons.local_fire_department_rounded, color: AppColors.primary, size: 20),
               const SizedBox(width: 2),
               Text(
                 '${p.profile.currentStreak}',
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.primary),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.primary),
               ),
             ],
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: 8),
         ],
-        GestureDetector(
-          onTap: () => p.toggleLanguage(),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.07),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.language, size: 10, color: Colors.white70),
-                const SizedBox(width: 2),
-                Text(
-                  p.isRussian ? 'QAZ' : 'RUS',
-                  style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: Colors.white70),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(width: 6),
         GestureDetector(
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DailyRewardScreen())),
           child: Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.07)),
+              color: AppColors.botakoin.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.botakoin.withValues(alpha: 0.2)),
             ),
-            child: Image.asset('assets/cumbot/face.png', width: 16, height: 16, fit: BoxFit.cover),
+            child: Image.asset('assets/cumbot/face.png', width: 24, height: 24, fit: BoxFit.cover),
           ),
         ),
-        const SizedBox(width: 6),
+        const SizedBox(width: 8),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.06),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.07)),
+            gradient: const LinearGradient(colors: [Color(0xFFFFD700), Color(0xFFFFA500)]),
+            borderRadius: BorderRadius.circular(14),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.botakoin.withValues(alpha: 0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: Image.asset('assets/coin/coin.jpeg', width: 14, height: 14, fit: BoxFit.cover),
+                borderRadius: BorderRadius.circular(5),
+                child: Image.asset('assets/coin/coin.jpeg', width: 16, height: 16, fit: BoxFit.cover),
               ),
               const SizedBox(width: 4),
               Text(
                 '${p.profile.botakoins}',
                 style: const TextStyle(
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFFFCD34D),
-                  fontSize: 12,
+                  color: Colors.white,
+                  fontSize: 14,
                 ),
               ),
             ],
+          ),
+        ),
+        const SizedBox(width: 8),
+
+        GestureDetector(
+          onTap: () => p.toggleLanguage(),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.language_rounded, size: 14, color: AppColors.primary),
+                const SizedBox(width: 4),
+                Text(
+                  p.isRussian ? 'QAZ' : 'RUS',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
