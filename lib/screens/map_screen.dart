@@ -804,7 +804,30 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           ),
         ),
         const SizedBox(width: 8),
-
+        GestureDetector(
+          onTap: () => p.toggleTts(),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Icon(
+              p.isTtsEnabled ? Icons.volume_up_rounded : Icons.volume_off_rounded,
+              size: 14,
+              color: AppColors.primary,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
         GestureDetector(
           onTap: () => p.toggleLanguage(),
           child: Container(

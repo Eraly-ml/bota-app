@@ -16,6 +16,7 @@ class GameProvider extends ChangeNotifier {
   bool _onboardingComplete = false;
   bool _parentModeActive = false;
   bool _isLoaded = false;
+  bool _isTtsEnabled = true;
   final String _parentPin = '1234';
   DateTime? _sessionStart;
   bool _screenTimeLimitReached = false;
@@ -27,6 +28,7 @@ class GameProvider extends ChangeNotifier {
   bool get parentModeActive => _parentModeActive;
   bool get screenTimeLimitReached => _screenTimeLimitReached;
   bool get isLoaded => _isLoaded;
+  bool get isTtsEnabled => _isTtsEnabled;
 
   String t(String kz, String ru) => _isRussian ? ru : kz;
 
@@ -48,6 +50,7 @@ class GameProvider extends ChangeNotifier {
 
   Future<void> _loadProfile() async {
     final prefs = await SharedPreferences.getInstance();
+    _isTtsEnabled = prefs.getBool('isTtsEnabled') ?? true;
     final profileJson = prefs.getString('child_profile');
     if (profileJson != null) {
       try {
@@ -213,6 +216,13 @@ class GameProvider extends ChangeNotifier {
     _isRussian = !_isRussian;
     LocaleStrings.setLanguage(_isRussian ? 'ru' : 'kk');
     _saveProfile();
+    notifyListeners();
+  }
+
+  Future<void> toggleTts() async {
+    _isTtsEnabled = !_isTtsEnabled;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isTtsEnabled', _isTtsEnabled);
     notifyListeners();
   }
 

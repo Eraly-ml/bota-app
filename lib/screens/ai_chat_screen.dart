@@ -238,6 +238,22 @@ class _AiChatScreenState extends State<AiChatScreen> with TickerProviderStateMix
           ),
         ),
         GestureDetector(
+          onTap: () => p.toggleTts(),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              p.isTtsEnabled ? Icons.volume_up_rounded : Icons.volume_off_rounded,
+              color: Colors.white60,
+              size: 20,
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
             padding: const EdgeInsets.all(8),

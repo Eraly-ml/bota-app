@@ -1,4 +1,5 @@
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// FlutterTTS-powered voice playback for the KamBot mascot.
 /// Free and works without API keys.
@@ -14,6 +15,10 @@ class VoiceService {
 
   /// Speak `text` aloud.
   static Future<void> speak(String text) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isTtsEnabled = prefs.getBool('isTtsEnabled') ?? true;
+    if (!isTtsEnabled) return;
+
     final clean = _stripEmojis(text);
     if (clean.isEmpty || _lastText == clean || _pending) return;
     _lastText = clean;
